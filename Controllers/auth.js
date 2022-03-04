@@ -1,8 +1,12 @@
-const User = require("../Models/User")
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+
 const { body, validationResult } = require('express-validator')
+
+const User = require("../Models/User")
 const { generateRandomPassword } = require('../Utils/scripts')
+const {sendMail} = require("../Controllers/mail")
+
 exports.signup = async (req, res, next) => {
     const { last_name, first_name, email, role } = req.body
     try {
@@ -18,22 +22,26 @@ exports.signup = async (req, res, next) => {
     }
     const salt = await bcrypt.genSalt(10)
     const password = generateRandomPassword()
-    console.log(password);
-    // const hashedPassword = await bcrypt.hash(password, salt)
+    const hashedPassword = await bcrypt.hash(password, salt)
 
-   /* const newUser = await User.create({ username, email, password: hashedPassword, role });
+    const newUser = await User.create({ first_name, last_name, email, password: hashedPassword, role });
 
     if(newUser) {
+        try {
+            await sendMail(first_name, last_name, email, password)
+        } catch (error) {
+            console.log(error.message);
+        }
         res.status(201).json({
             _id: newUser.id,
-            name: newUser.name,
+            first_name: newUser.first_name,
+            last_name: newUser.last_name,
             email: newUser.email,
-            role: newUser.role,
-            token: generateToken(newUser._id),
+            role: newUser.role
           })
     } else {
         return res.status(400).json("Invalid user data")
-    }*/
+    }
 }
 
 exports.login = async (req, res, next) => {
@@ -80,6 +88,4 @@ exports.user = async (req, res, next) => {
         err.message
     }
 }
-
-
 
