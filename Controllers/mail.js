@@ -10,7 +10,10 @@ let transporter = nodemailer.createTransport({
     auth: {
       user: process.env.GMAIL_EMAIL,
       pass: process.env.GMAIL_PASS
-    }
+    },
+    tls: {
+        rejectUnauthorized: false
+      }
 });
 
 
@@ -28,7 +31,6 @@ exports.sendMail = async (firstname,lastname,email, password) => {
                     subject: `Platform Account`,
                     html: output
                 })
-                console.log('Email sent: ' + info.response);
                 console.log('Email sent with: ' + `Email: ${email} | Password: ${password}`)
             }
         })

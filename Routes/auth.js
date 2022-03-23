@@ -5,9 +5,9 @@ const auth = require("../Middlewares/auth")
 const inputValidation = require("../Middlewares/inputValidation")
 
 
-router.post('/auth/signup', inputValidation.signupValidation, authController.signup);
-router.post('/auth/signin',inputValidation.signinValidation, authController.login);
-router.get('/auth/user', auth, authController.user);
+router.post('/signup', inputValidation.signupValidation, authController.signup);
+router.post('/signin',inputValidation.signinValidation, authController.login);
+router.get('/user', auth, authController.user);
 
 router.post('/sendMail', mailController.sendMail);
 
