@@ -36,10 +36,21 @@ app.listen(PORT, () =>{
 
 let users = []
 const addUser = (userId, socketId) => {
-    !users.some(user => user.userId === userId) && users.push({userId, socketId})
+    let test = true
+    users.map(user => {
+        if(user === userId) {
+            return false
+        }
+    })
+    if(test) {
+        !users.some(user => user.userId === userId) && users.push({userId, socketId})
+    }
 }
 const removeUser = (socketId) => {
     users = users.filter(user => user.socketId !== socketId)
+}
+const removeUser2 = (userId) => {
+    users = users.filter(user => user.userId !== userId)
 }
 const getUser = (userId) => {
     return users.find(user => user.userId === userId)
@@ -47,10 +58,11 @@ const getUser = (userId) => {
 
 io.on('connection', socket => {
     console.log("a user connected.")
-    
+    console.log(users);
     socket.on("addUser", userId => {
         addUser(userId, socket.id)
         io.emit('getUsers', users)
+        console.log("USER added: "+ userId);
     })
 
     socket.on("sendMessage", ({senderId, receiverId, text}) => {
@@ -61,9 +73,14 @@ io.on('connection', socket => {
         })
     })
 
-    socket.on("disconnect", () => {
-        console.log("a user disconnected")
-        removeUser(socket.id)
+    // socket.on("disconnect", () => {
+    //     console.log("a user disconnected")
+    //     removeUser(socket.id)
+    //     io.emit('getUsers', users)
+    // })
+    socket.on("logout", (userId) => {
+        console.log("LOGOUT: "+userId)
+        removeUser2(userId)
         io.emit('getUsers', users)
     })
 })
