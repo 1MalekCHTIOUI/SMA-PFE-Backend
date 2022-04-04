@@ -8,5 +8,6 @@ router.get('/users', userController.getAllUsers)
 router.get('/users/:id', userController.getUser)
 router.put('/users/:id', userController.editUser)
 router.delete('/users/:id', userController.deleteUser)
+router.post('/compare', userController.comparePasswords)
 
 module.exports = router

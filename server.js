@@ -57,12 +57,9 @@ const getUser = (userId) => {
 }
 
 io.on('connection', socket => {
-    console.log("a user connected.")
-    console.log(users);
     socket.on("addUser", userId => {
         addUser(userId, socket.id)
         io.emit('getUsers', users)
-        console.log("USER added: "+ userId);
     })
 
     socket.on("sendMessage", ({senderId, receiverId, text}) => {
@@ -79,7 +76,6 @@ io.on('connection', socket => {
     //     io.emit('getUsers', users)
     // })
     socket.on("logout", (userId) => {
-        console.log("LOGOUT: "+userId)
         removeUser2(userId)
         io.emit('getUsers', users)
     })

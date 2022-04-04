@@ -32,7 +32,7 @@ exports.editUser = async (req,res,next) => {
           }
         }
         try {
-          const user = await User.findByIdAndUpdate(req.params.id, {
+          await User.findByIdAndUpdate(req.params.id, {
             $set: req.body,
           });
           res.status(200).json({message: "Account has been updated"});
@@ -51,4 +51,23 @@ exports.deleteUser = async (req, res, next) => {
   } catch (error) {
     res.status(400).json(error)
   }
-} 
+}
+
+exports.comparePasswords = async(req, res, next) => {
+  const {email, oldPassword} = req.body
+  const user = await User.findOne({email})
+  try { 
+      const isMatch = await bcrypt.compare(oldPassword, user?.password)
+      if(isMatch) {
+        res.json({
+            same: true,
+        })
+      }else {
+        res.json({
+          same: false,
+      })
+      }
+  } catch(err) {
+      console.log(err.message);
+  }
+}
