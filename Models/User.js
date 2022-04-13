@@ -18,11 +18,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    service: {
+        type:String,
+        required: true
+    },
     role: {
         type: Array,
         required: true,
         default: ['USER']
-    }
+    },
     }, 
     { 
         timestamps: true

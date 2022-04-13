@@ -8,7 +8,7 @@ const { generateRandomPassword } = require('../Utils/scripts')
 const {sendMail} = require("../Controllers/mail")
 
 exports.signup = async (req, res, next) => {
-    const { last_name, first_name, email, role } = req.body
+    const { last_name, first_name, email, role, service } = req.body
     try {
         const errors = validationResult(req)
         if(!errors.isEmpty()) {
@@ -24,7 +24,7 @@ exports.signup = async (req, res, next) => {
     const password = generateRandomPassword()
     const hashedPassword = await bcrypt.hash(password, salt)
 
-    const newUser = await User.create({ first_name, last_name, email, password: hashedPassword, role });
+    const newUser = await User.create({ first_name, last_name, email, password: hashedPassword, service, role });
 
     if(newUser) {
         try {
@@ -37,6 +37,7 @@ exports.signup = async (req, res, next) => {
             first_name: newUser.first_name,
             last_name: newUser.last_name,
             email: newUser.email,
+            service: newUser.service,
             role: newUser.role
           })
     } else {
@@ -63,6 +64,7 @@ exports.login = async (req, res, next) => {
                     last_name: user.last_name,
                     email: user.email,
                     role: user.role,
+                    service: user.service,
                     password: user.password,
                     token: generateToken(user._id),
                 })
