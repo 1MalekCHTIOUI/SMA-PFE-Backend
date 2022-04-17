@@ -11,7 +11,8 @@ const messageRouter = require('./Routes/messages')
 const { v4 } = require('uuid')
 const io = require('socket.io')(8900, {
     cors: {
-        origin: "*"
+        origin: "*",
+        methods: ["GET", "POST"]
     }
 })
 const socketLogic = require('./Socket/SocketLogic')(io)

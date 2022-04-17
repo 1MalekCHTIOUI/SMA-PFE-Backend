@@ -53,6 +53,7 @@ module.exports = (io) => {
             }
 
         })
+
         socket.on("declineCall", ({callerId, declinerName}) => {
             const user = getUser(callerId)
             try {
@@ -62,8 +63,16 @@ module.exports = (io) => {
             }
         })
 
+        socket.on("acceptCall", ({callerId, acceptName}) => {
+            const user = getUser(callerId)
+            try {
+                io.to(user?.socketId).emit("callAccepted", {acceptName: acceptName, status: true})
+            } catch (error) {
+                console.log(error);
+            }
+        })
+
         socket.on("disconnect", () => {
-            console.log("a user disconnected")
             removeUser(socket.id)
             io.emit('getUsers', users)
         })
@@ -107,7 +116,6 @@ module.exports = (io) => {
                 room = room.filter(id => id !== socket.id);
                 userss[roomID] = room;
             }
-            console.log("user disconnected");
         });    
     })
 }
