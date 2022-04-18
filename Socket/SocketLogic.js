@@ -36,6 +36,7 @@ module.exports = (io) => {
 
         socket.on("sendMessage", ({senderId, receiverId, text}) => {
             const user = getUser(receiverId)
+            console.log(receiverId);
             io.to(user?.socketId).emit("getMessage", {
                 senderId,
                 text
@@ -73,8 +74,15 @@ module.exports = (io) => {
         })
 
         socket.on("disconnect", () => {
+            const roomID = socketToRoom[socket.id];
+            let room = userss[roomID];
             removeUser(socket.id)
             io.emit('getUsers', users)
+
+            if (room) {
+                room = room.filter(id => id !== socket.id);
+                userss[roomID] = room;
+            }
         })
 
         socket.on("logout", (userId) => {
@@ -107,15 +115,6 @@ module.exports = (io) => {
 
         socket.on("returning signal", payload => {
             io.to(payload.callerID).emit('receiving returned signal', { signal: payload.signal, id: socket.id });
-        });
-
-        socket.on('disconnect', () => {
-            const roomID = socketToRoom[socket.id];
-            let room = userss[roomID];
-            if (room) {
-                room = room.filter(id => id !== socket.id);
-                userss[roomID] = room;
-            }
-        });    
+        });   
     })
 }
