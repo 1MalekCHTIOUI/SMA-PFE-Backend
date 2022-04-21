@@ -22,9 +22,34 @@ module.exports = (io) => {
     const getUser = (userId) => {
         return users.find(user => user.userId === userId)
     }
+    const addUserToRoom = ({ id, name, room }) => {
+        name = name.trim().toLowerCase();
+        room = room.trim().toLowerCase();
+      
+        const existingUser = usersRoom.find((user) => user.room === room && user.name === name);
+      
+        if(!name || !room) return { error: 'Username and room are required.' };
+        if(existingUser) return { error: 'Username is taken.' };
+      
+        const user = { id, name, room };
+      
+        usersRoom.push(user);
+      
+        return { user };
+    }
+    const removeUserRoom = (id) => {
+        const index = usersRoom.findIndex((user) => user.id === id);
+      
+        if(index !== -1) return usersRoom.splice(index, 1)[0];
+    }
+      
+    const getUserRoom = (id) => usersRoom.find((user) => user.id === id);
+      
+    const getUsersInRoom = (room) => usersRoom.filter((user) => user.room === room);
     const ROOM_ID = v4()
 
     const userss = {};
+    const usersRoom = []
         
     const socketToRoom = {};
     io.on('connection', socket => {
@@ -38,6 +63,14 @@ module.exports = (io) => {
             const user = getUser(receiverId)
             console.log(receiverId);
             io.to(user?.socketId).emit("getMessage", {
+                senderId,
+                text
+            })
+        })
+
+        socket.on("sendGroupMessage", ({senderId, roomId, text}) => {
+            console.log(receiverId);
+            io.to(user?.roomId).emit("getMessage", {
                 senderId,
                 text
             })
@@ -115,6 +148,26 @@ module.exports = (io) => {
 
         socket.on("returning signal", payload => {
             io.to(payload.callerID).emit('receiving returned signal', { signal: payload.signal, id: socket.id });
-        });   
+        });
+
+        /**************************** */
+
+
+        socket.on('join', ({ name, room }, callback) => {
+            const { error, user } = addUser({ id: socket.id, name, room });
+        
+            if(error) return callback(error);
+        
+            socket.join(user.room);
+        
+            socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.`});
+            socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
+        
+            io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+        
+            callback();
+        });
+
+
     })
 }
