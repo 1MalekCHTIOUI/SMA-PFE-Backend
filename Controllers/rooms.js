@@ -29,9 +29,16 @@ exports.newGroupRoom = async (req,res,next) => {
 exports.addNewGroupMember = async (req,res,next) => {
     const roomId = req.params.roomId
     const members = req.body.members
+
     try {
+        const room = await Room.findById(roomId)
+        room.members.map(member => {
+            if(members.includes(member)) {
+                return res.status(500).json({message: "User already member of group"})
+            }
+        })
         const updatedRoom = await Room.findByIdAndUpdate(roomId, {
-            $push: {members: {$each: members}}
+            $push: {members: {$each: [members]}}
         })
         res.status(200).json(updatedRoom)
     } catch (error) {
@@ -41,6 +48,9 @@ exports.addNewGroupMember = async (req,res,next) => {
 exports.removeGroupMember = async (req,res,next) => {
     const {roomId, memberId} = req.params
     try {
+        if(roomId === undefined && memberId === undefined) {
+            res.status(500).json({message: "Wrong data"})
+        }
         const deletedUser = await Room.findByIdAndUpdate(roomId, {
             $pull: {members: memberId}
         })
@@ -69,6 +79,16 @@ exports.getRoomByUserId = async (req, res, next) => {
         })
         res.status(200).json(room)
 
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
+
+exports.getRoom = async (req, res, next) => {
+    const {roomId} = req.params
+    try {
+        const room = await Room.findById(roomId)
+        res.status(200).json(room)
     } catch (error) {
         res.status(500).json({message: error.message})
     }
