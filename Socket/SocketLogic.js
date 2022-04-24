@@ -68,6 +68,15 @@ module.exports = (io) => {
             })
         })
 
+        socket.on("sendNotification", ({senderId, receiverId, content}) => {
+            const user = getUser(receiverId)
+            console.log(receiverId);
+            io.to(user?.socketId).emit("getNotification", {
+                senderId,
+                content
+            })
+        })
+
         socket.on("sendGroupMessage", ({senderId, roomId, text}) => {
             console.log(receiverId);
             io.to(user?.roomId).emit("getMessage", {
@@ -150,23 +159,9 @@ module.exports = (io) => {
             io.to(payload.callerID).emit('receiving returned signal', { signal: payload.signal, id: socket.id });
         });
 
-        /**************************** */
+        /********for notif */
 
 
-        socket.on('join', ({ name, room }, callback) => {
-            const { error, user } = addUser({ id: socket.id, name, room });
-        
-            if(error) return callback(error);
-        
-            socket.join(user.room);
-        
-            socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.`});
-            socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
-        
-            io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
-        
-            callback();
-        });
 
 
     })

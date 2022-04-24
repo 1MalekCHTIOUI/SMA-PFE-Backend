@@ -66,6 +66,7 @@ exports.login = async (req, res, next) => {
                     role: user.role,
                     service: user.service,
                     password: user.password,
+                    social: user.social,
                     token: generateToken(user._id),
                 })
             }else {

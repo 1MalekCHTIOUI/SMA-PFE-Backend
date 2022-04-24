@@ -8,6 +8,8 @@ const authRouter = require('./Routes/auth')
 const userRouter = require('./Routes/users')
 const roomRouter = require('./Routes/rooms')
 const messageRouter = require('./Routes/messages')
+const notificationRouter = require('./Routes/notifications')
+
 const { v4 } = require('uuid')
 const io = require('socket.io')(8900, {
     cors: {
@@ -31,6 +33,7 @@ app.use('/api/auth', authRouter)
 app.use('/api/user', userRouter)
 app.use('/api/rooms', roomRouter)
 app.use('/api/messages', messageRouter)
+app.use('/api/notifications', notificationRouter)
 
 app.listen(PORT, () =>{
     console.log("Server is running on Port: " + PORT)

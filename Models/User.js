@@ -27,6 +27,9 @@ const userSchema = new mongoose.Schema({
         required: true,
         default: ['USER']
     },
+    social: {
+        type: Object
+    }
     }, 
     { 
         timestamps: true
