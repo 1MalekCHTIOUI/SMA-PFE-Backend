@@ -29,6 +29,9 @@ const userSchema = new mongoose.Schema({
     },
     social: {
         type: Object
+    },
+    profilePicture: {
+        type: String
     }
     }, 
     { 

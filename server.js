@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
+const fileUpload = require('express-fileupload')
 const PORT = process.env.PORT || 5000
 const path = require('path')
 const authRouter = require('./Routes/auth')
@@ -9,6 +10,7 @@ const userRouter = require('./Routes/users')
 const roomRouter = require('./Routes/rooms')
 const messageRouter = require('./Routes/messages')
 const notificationRouter = require('./Routes/notifications')
+const uploadRouter = require('./Routes/upload')
 
 const { v4 } = require('uuid')
 const io = require('socket.io')(8900, {
@@ -24,6 +26,7 @@ app.use(cors())
 app.options('*', cors())
 app.use(express.json())
 app.set("view engine", "ejs")
+app.use(fileUpload())
 
 
 mongoose.connect("mongodb://127.0.0.1:27017/sma", {useNewUrlParser: true, useUnifiedTopology: true}).then(() => console.log("MongoDB has been connected"))
@@ -34,6 +37,7 @@ app.use('/api/user', userRouter)
 app.use('/api/rooms', roomRouter)
 app.use('/api/messages', messageRouter)
 app.use('/api/notifications', notificationRouter)
+app.use('/api/upload', uploadRouter)
 
 app.listen(PORT, () =>{
     console.log("Server is running on Port: " + PORT)

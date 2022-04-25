@@ -67,6 +67,7 @@ exports.login = async (req, res, next) => {
                     service: user.service,
                     password: user.password,
                     social: user.social,
+                    profilePicture: user.profilePicture,
                     token: generateToken(user._id),
                 })
             }else {
