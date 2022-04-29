@@ -27,3 +27,10 @@ exports.generateRandomPassword = () => {
     }
     return s
 }
+
+exports.randomNumber = () => {
+    return Math.floor(Math.random() * (999999999 - 100000000 + 1) + 100000000)
+}
+exports.addStr = (str, index, stringToAdd) => {
+    return str.substring(0, index) + stringToAdd + str.substring(index, str.length);
+  }

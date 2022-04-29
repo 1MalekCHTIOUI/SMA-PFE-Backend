@@ -44,3 +44,16 @@ exports.unreadNotification = async (req, res, next) => {
     }
 }
 
+exports.unreadAllNotifications = async (req, res, next) => {
+    const {userId} = req.params
+    try {
+        const notifs = await Notification.findByIdAndUpdate({userId: userId}, {
+            read: true
+        })
+        res.status(200).json(notifs)
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
+
+

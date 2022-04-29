@@ -37,10 +37,15 @@ exports.addNewGroupMember = async (req,res,next) => {
                 return res.status(500).json({message: "User already member of group"})
             }
         })
-        const updatedRoom = await Room.findByIdAndUpdate(roomId, {
-            $push: {members: {$each: [members]}}
-        })
-        res.status(200).json(updatedRoom)
+        try{
+            const updatedRoom = await Room.findByIdAndUpdate(roomId, {
+                $push: {members: {$each: [members]}}
+            })
+            res.status(200).json(updatedRoom)
+        } catch(err){
+            res.status(500).json({message: err.message})
+        }
+
     } catch (error) {
         res.status(500).json({message: error.message})
     }

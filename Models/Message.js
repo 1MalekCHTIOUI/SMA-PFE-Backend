@@ -12,7 +12,7 @@ const messageSchema = new mongoose.Schema(
             type: String
         },
         attachment: {
-            type: String
+            type: Array
         }
     }, 
     { 
