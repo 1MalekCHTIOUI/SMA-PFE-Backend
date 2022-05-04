@@ -58,13 +58,14 @@ module.exports = (io) => {
                 text
             })
         })
-        io.emit("getRoomID", ROOM_ID)
         
-        socket.on("callNotif", ({caller, id})=>{
+        
+        socket.on("callNotif", ({caller, id, room})=>{
             const user = getUser(id)
             try {
                 io.to(user?.socketId).emit("notif", {msg: `${caller.fullName} is calling you!`, caller: caller.fullName})
                 io.to(user?.socketId).emit("getCallerID", caller.id)
+                io.to(user?.socketId).emit("getRoomID", room)
             } catch (error) {
                 console.log(error);           
             }

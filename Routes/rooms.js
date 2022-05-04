@@ -9,4 +9,5 @@ router.delete('/removeGroup/:roomId', roomController.removeGroup)
 router.get('/:userId', roomController.getRoomByUserId)
 router.get('/room/:roomId', roomController.getRoom)
 
+
 module.exports = router

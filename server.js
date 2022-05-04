@@ -11,7 +11,6 @@ const roomRouter = require('./Routes/rooms')
 const messageRouter = require('./Routes/messages')
 const notificationRouter = require('./Routes/notifications')
 const uploadRouter = require('./Routes/upload')
-
 const { v4 } = require('uuid')
 const io = require('socket.io')(8900, {
     cors: {
@@ -28,6 +27,7 @@ app.use(express.json())
 app.set("view engine", "ejs")
 app.use(fileUpload())
 
+app.get('/getLink', (req, res, next) => { res.send(v4()) });
 
 mongoose.connect("mongodb://127.0.0.1:27017/sma", {useNewUrlParser: true, useUnifiedTopology: true}).then(() => console.log("MongoDB has been connected"))
 .catch((err) => console.log("MongoDB Not Connected"))

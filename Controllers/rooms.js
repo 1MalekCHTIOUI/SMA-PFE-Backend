@@ -1,3 +1,4 @@
+const { v4 } = require('uuid')
 const Room = require('../Models/Room')
 
 exports.newRoom = async (req,res,next) => {
