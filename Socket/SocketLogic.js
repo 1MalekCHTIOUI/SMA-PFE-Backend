@@ -63,7 +63,7 @@ module.exports = (io) => {
         socket.on("callNotif", ({caller, id})=>{
             const user = getUser(id)
             try {
-                io.to(user?.socketId).emit("notif", {msg: `${caller.firstName} is calling you!`})
+                io.to(user?.socketId).emit("notif", {msg: `${caller.fullName} is calling you!`, caller: caller.fullName})
                 io.to(user?.socketId).emit("getCallerID", caller.id)
             } catch (error) {
                 console.log(error);           
