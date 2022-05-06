@@ -36,11 +36,12 @@ module.exports = (io) => {
             io.emit('getUsers', users)
         })
 
-        socket.on("sendMessage", ({senderId, receiverId, text}) => {
+        socket.on("sendMessage", ({senderId, receiverId, text, roomType}) => {
             const user = getUser(receiverId)
             io.to(user?.socketId).emit("getMessage", {
                 senderId,
-                text
+                text,
+                roomType
             })
         })
 
@@ -52,13 +53,6 @@ module.exports = (io) => {
             })
         })
 
-        socket.on("sendGroupMessage", ({senderId, roomId, text}) => {
-            io.to(user?.roomId).emit("getMessage", {
-                senderId,
-                text
-            })
-        })
-        
         
         socket.on("callNotif", ({caller, id, room})=>{
             const user = getUser(id)
