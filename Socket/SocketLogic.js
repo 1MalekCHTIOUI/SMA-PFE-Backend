@@ -53,6 +53,38 @@ module.exports = (io) => {
             })
         })
 
+        socket.on('removeFromGroup', ({currentChat, removedUser}) => {
+            const user = getUser(removedUser)
+            io.to(user?.socketId).emit('removedFromGroup', {
+                currentChat: currentChat,
+                removedUser
+            })
+        })
+
+        socket.on('addToGroup', ({currentChat, addedUser}) => {
+            const user = getUser(addedUser)
+            io.to(user?.socketId).emit('addedToGroup', {
+                currentChat: currentChat,
+                addedUser
+            })
+        })
+
+        socket.on('createGroup', (data) => {
+            if(data.members.length > 0) {
+                data.members.map(m => {
+                    const user = getUser(m)
+                    io.to(user?.socketId).emit('groupCreated', data)
+                })
+            }
+        })
+        socket.on('removeGroup', (data) => {
+            if(data.members.length > 0) {
+                data.members.map(m => {
+                    const user = getUser(m)
+                    io.to(user?.socketId).emit('groupRemoved', data)
+                })
+            }
+        })
         
         socket.on("callNotif", ({caller, id, room})=>{
             const user = getUser(id)
