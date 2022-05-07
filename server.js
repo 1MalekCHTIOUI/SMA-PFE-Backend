@@ -19,7 +19,8 @@ const io = require('socket.io')(8900, {
     }
 })
 const socketLogic = require('./Socket/SocketLogic')(io)
-
+const LOCAL_MONGO_URI = "mongodb://127.0.0.1:27017/sma"
+const REMOTE_MONGO_URI = process.env.MONGO_URI
 require("dotenv").config({ path: path.resolve(__dirname, './.env') })
 app.use(cors())
 app.options('*', cors())
@@ -29,7 +30,7 @@ app.use(fileUpload())
 
 app.get('/getLink', (req, res, next) => { res.send(v4()) });
 
-mongoose.connect("mongodb://127.0.0.1:27017/sma", {useNewUrlParser: true, useUnifiedTopology: true}).then(() => console.log("MongoDB has been connected"))
+mongoose.connect(REMOTE_MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true}).then(() => console.log("MongoDB has been connected"))
 .catch((err) => console.log("MongoDB Not Connected"))
 
 app.use('/api/auth', authRouter)
