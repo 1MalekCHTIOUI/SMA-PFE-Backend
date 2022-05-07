@@ -41,6 +41,6 @@ app.use('/api/messages', messageRouter)
 app.use('/api/notifications', notificationRouter)
 app.use('/api/upload', uploadRouter)
 
-server.listen(PORT, () =>{
+app.listen(PORT, () =>{
     console.log("Server is running on Port: " + PORT)
 })
