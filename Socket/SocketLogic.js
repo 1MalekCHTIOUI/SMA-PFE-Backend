@@ -30,7 +30,7 @@ module.exports = (io) => {
         
     const socketToRoom = {};
     io.on('connection', socket => {
-
+        console.log("CONNECTED");
         socket.on("addUser", userId => {
             addUser(userId, socket.id)
             io.emit('getUsers', users)
