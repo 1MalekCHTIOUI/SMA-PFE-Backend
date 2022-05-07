@@ -19,6 +19,8 @@ let transporter = nodemailer.createTransport({
 
 exports.sendMail = async (firstname,lastname,email, password) => {
     const ejs = require('ejs')
+    console.log(process.env.GMAIL_EMAIL);
+    console.log(process.env.GMAIL_PASS);
     try {
         transporter.verify(async(error, success) => {
             if (error) {
