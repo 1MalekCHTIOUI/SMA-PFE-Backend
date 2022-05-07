@@ -5,14 +5,16 @@ const mongoose = require('mongoose')
 const fileUpload = require('express-fileupload')
 const PORT = process.env.PORT || 5000
 const path = require('path')
+const http = require('http')
 const authRouter = require('./Routes/auth')
 const userRouter = require('./Routes/users')
 const roomRouter = require('./Routes/rooms')
 const messageRouter = require('./Routes/messages')
 const notificationRouter = require('./Routes/notifications')
 const uploadRouter = require('./Routes/upload')
+const server = http.createServer(app)
 const { v4 } = require('uuid')
-const io = require('socket.io')(8900, {
+const io = require('socket.io')(server, {
     cors: {
         origin: "*",
         methods: ["GET", "POST"]
