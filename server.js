@@ -5,18 +5,21 @@ const mongoose = require('mongoose')
 const fileUpload = require('express-fileupload')
 const PORT = process.env.PORT || 5000
 const path = require('path')
-const http = require('http')
 const authRouter = require('./Routes/auth')
 const userRouter = require('./Routes/users')
 const roomRouter = require('./Routes/rooms')
 const messageRouter = require('./Routes/messages')
 const notificationRouter = require('./Routes/notifications')
 const uploadRouter = require('./Routes/upload')
-const server = http.createServer(app)
+// const server = http.createServer(app)
 const { v4 } = require('uuid')
-const io = require('socket.io')(server)
-
-const socketLogic = require('./Socket/SocketLogic')(io)
+// const io = require('socket.io')(server, {
+//     cors: {
+//         origin: "*",
+//         methods: ["GET", "POST"]
+//     }
+// })
+// const socketLogic = require('./Socket/SocketLogic')(io)
 const LOCAL_MONGO_URI = "mongodb://127.0.0.1:27017/sma"
 const REMOTE_MONGO_URI = process.env.MONGO_URI
 require("dotenv").config({ path: path.resolve(__dirname, './.env') })
@@ -38,6 +41,6 @@ app.use('/api/messages', messageRouter)
 app.use('/api/notifications', notificationRouter)
 app.use('/api/upload', uploadRouter)
 
-app.listen(PORT, () =>{
+server.listen(PORT, () =>{
     console.log("Server is running on Port: " + PORT)
 })
