@@ -10,10 +10,10 @@ const {sendMail} = require("../Controllers/mail")
 exports.signup = async (req, res, next) => {
     const { last_name, first_name, email, role, service } = req.body
     try {
-        const errors = validationResult(req)
-        if(!errors.isEmpty()) {
-            return res.status(400).json({message: errors})
-        }
+        // const errors = validationResult(req)
+        // if(!errors.isEmpty()) {
+        //     return res.status(400).json({message: errors})
+        // }
         const user = await User.findOne({email})
         if(user) return res.status(400).json({message: "This Email is already used!"})
     }
