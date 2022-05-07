@@ -6,7 +6,7 @@ const path = require('path')
 
 let transporter = nodemailer.createTransport({
     service: 'gmail',
-    secure:true,
+    secure: false,
     auth: {
       user: process.env.GMAIL_EMAIL,
       pass: process.env.GMAIL_PASS
