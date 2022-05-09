@@ -13,6 +13,10 @@ const messageSchema = new mongoose.Schema(
         },
         attachment: {
             type: Array
+        },
+        read: {
+            type: Boolean,
+            default: false
         }
     }, 
     { 
