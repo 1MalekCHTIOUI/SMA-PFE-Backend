@@ -28,7 +28,12 @@ const userSchema = new mongoose.Schema({
         default: ['USER']
     },
     social: {
-        type: Object
+        type: Object,
+        default: {
+            github: "",
+            linkedin: "",
+            facebook: ""
+        }
     },
     profilePicture: {
         type: String

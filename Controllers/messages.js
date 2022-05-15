@@ -40,7 +40,7 @@ exports.unreadMessages = async (req, res, next) => {
     try {
         const messages = await Message.updateMany({
             roomId: req.params.roomId
-        }, { $set: {read: true} })
+        }, {$not: {receiverId: req.body.receiverId}}, { $set: {read: true} })
         
         res.status(200).json({status: true})
 
