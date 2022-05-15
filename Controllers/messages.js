@@ -36,11 +36,16 @@ exports.getLastMessage = async (req, res, next) => {
     }
 }
 
-exports.unreadMessages = async (req, res, next) => {
+exports.readMessages = async (req, res, next) => {
     try {
+        // const t = Object.assign({}, object1, {b: 22});
         const messages = await Message.updateMany({
-            roomId: req.params.roomId
-        }, {$not: {receiverId: req.body.receiverId}}, { $set: {read: true} })
+                roomId: req.params.roomId
+            }, 
+            { $set: {
+                [`read.${req.body.currentUserId}`]: true
+            }
+        })
         
         res.status(200).json({status: true})
 
