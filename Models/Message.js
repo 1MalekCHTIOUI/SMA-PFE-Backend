@@ -15,8 +15,7 @@ const messageSchema = new mongoose.Schema(
             type: Array
         },
         read: {
-            type: Boolean,
-            default: false
+            type: Object,
         }
     }, 
     { 
