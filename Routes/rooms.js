@@ -6,6 +6,7 @@ router.post('/newGroup', roomController.newGroupRoom)
 router.put('/addNewGroupMember/:roomId', roomController.addNewGroupMember)
 router.put('/removeGroupMember/:roomId/:memberId', roomController.removeGroupMember)
 router.delete('/removeGroup/:roomId', roomController.removeGroup)
+router.delete('/removeMessages/:roomId', roomController.deleteMessagesFromRoom)
 router.get('/:userId', roomController.getRoomByUserId)
 router.get('/room/:roomId', roomController.getRoom)
 

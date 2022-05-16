@@ -1,5 +1,6 @@
 const { v4 } = require('uuid')
 const Room = require('../Models/Room')
+const Message = require('../Models/Message')
 
 exports.newRoom = async (req,res,next) => {
     const newRoom = new Room({
@@ -95,6 +96,16 @@ exports.getRoom = async (req, res, next) => {
     try {
         const room = await Room.findById(roomId)
         res.status(200).json(room)
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
+
+exports.deleteMessagesFromRoom = async (req, res, next) => {
+    const {roomId} = req.params
+    try {
+        const messages = await Message.deleteMany({roomId: roomId})
+        res.status(200).json({message: 'Messages deleted from room'})
     } catch (error) {
         res.status(500).json({message: error.message})
     }
