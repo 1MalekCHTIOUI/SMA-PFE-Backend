@@ -11,6 +11,7 @@ const roomRouter = require('./Routes/rooms')
 const messageRouter = require('./Routes/messages')
 const notificationRouter = require('./Routes/notifications')
 const uploadRouter = require('./Routes/upload')
+const postRouter = require('./Routes/post')
 // const server = http.createServer(app)
 const { v4 } = require('uuid')
 // const io = require('socket.io')(server, {
@@ -40,6 +41,7 @@ app.use('/api/rooms', roomRouter)
 app.use('/api/messages', messageRouter)
 app.use('/api/notifications', notificationRouter)
 app.use('/api/upload', uploadRouter)
+app.use('/api/posts', postRouter)
 
 app.listen(PORT, () =>{
     console.log("Server is running on Port: " + PORT)
