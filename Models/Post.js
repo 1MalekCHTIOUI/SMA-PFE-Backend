@@ -18,6 +18,10 @@ const postSchema = new mongoose.Schema(
       type: Array,
       required: false,
     },
+    visibility: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,
