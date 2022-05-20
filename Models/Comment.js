@@ -10,6 +10,10 @@ const commentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    uploadedBy: {
+      type: Object,
+      required: true,
+    },
     attachment: {
       type: Array,
       required: false,
