@@ -34,7 +34,7 @@ exports.likePost = async (req, res, next) => {
 exports.unlikePost = async (req, res, next) => {
   try {
     await Post.findByIdAndUpdate(req.params.postId, {
-      $pull: { likes: req.body },
+      $pull: { "likes.userId": req.body.userId },
     });
     res.status(200).json({ message: "unliked" });
   } catch (error) {
