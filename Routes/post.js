@@ -1,8 +1,10 @@
-const router = require("express").Router()
-const messageController = require("../Controllers/posts")
+const router = require("express").Router();
+const postController = require("../Controllers/posts");
 
-router.post('/', messageController.newPost)
-router.get('/:userId', messageController.getUserPosts)
-router.delete('/:postId', messageController.getUserPosts)
+router.post("/", postController.newPost);
+router.get("/:userId", postController.getUserPosts);
+router.put("/like/:postId", postController.likePost);
+router.put("/unlike/:postId", postController.unlikePost);
+router.delete("/:postId", postController.deletePost);
 
-module.exports = router
+module.exports = router;
