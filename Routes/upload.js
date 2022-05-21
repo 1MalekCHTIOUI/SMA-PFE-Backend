@@ -1,7 +1,7 @@
-const router = require("express").Router()
-const uploadController = require("../Controllers/upload")
+const router = require("express").Router();
+const multer = require("multer");
+const uploadController = require("../Controllers/upload");
+const upload = require("../Middlewares/upload");
 
-router.post('/', uploadController.uploadPicture)
-router.post('/file', uploadController.uploadFile)
-
-module.exports = router
+router.post("/upload", upload.single("file"), uploadController.upload);
+module.exports = router;
