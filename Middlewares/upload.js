@@ -1,14 +1,33 @@
+const { v4 } = require("uuid");
+const DIR = "./public/uploads";
 const multer = require("multer");
-const maxSize = 2 * 1024 * 1024;
-const path = require("path");
-const Storage = multer.diskStorage({
-  destination: (req, file, callback) => {
-    callback(null, "../uploads/");
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, DIR);
   },
-  filename: (req, file, callback) => {
-    callback(null, file.name);
+  filename: (req, file, cb) => {
+    const fileName = file.originalname.toLowerCase().split(" ").join("-");
+    cb(null, v4() + "-" + fileName);
   },
 });
-
-const uploads = multer({ storage: Storage });
-module.exports = uploads;
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype == "image/png" ||
+      file.mimetype == "image/jpg" ||
+      file.mimetype == "image/jpeg" ||
+      file.mimetype == "application/pdf" ||
+      file.mimetype ==
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(
+        new Error("Only .png, .jpg, .jpeg, .pdf and .docx format allowed!"),
+      );
+    }
+  },
+});
+module.exports = upload;
