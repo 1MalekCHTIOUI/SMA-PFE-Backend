@@ -25,7 +25,10 @@ const multer = require("multer");
 const LOCAL_MONGO_URI = "mongodb://127.0.0.1:27017/sma";
 const REMOTE_MONGO_URI = process.env.MONGO_URI;
 require("dotenv").config({ path: path.resolve(__dirname, "./.env") });
-app.use(cors());
+const corsOptions = {
+  credentials: true,
+};
+app.use(cors(corsOptions));
 // app.use(multer({ dest: "./public/uploads/" }).single("file"));
 app.options("*", cors());
 app.use(express.json());
