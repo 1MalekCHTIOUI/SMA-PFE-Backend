@@ -14,7 +14,7 @@ const uploadRouter = require("./Routes/upload");
 const postRouter = require("./Routes/post");
 // const server = http.createServer(app)
 const { v4 } = require("uuid");
-const multer = require("multer");
+// const multer = require("multer");
 // const io = require('socket.io')(server, {
 //     cors: {
 //         origin: "*",
