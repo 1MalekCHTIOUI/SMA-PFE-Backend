@@ -28,6 +28,9 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: ["USER"],
     },
+    bio: {
+      type: String,
+    },
     social: {
       type: Object,
       default: {
