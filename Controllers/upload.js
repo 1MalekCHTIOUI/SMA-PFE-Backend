@@ -18,9 +18,7 @@ exports.upload = async (req, res, next) => {
 
     res.status(200).json({ upload: filename });
   } catch (error) {
-    console.log(error);
-    console.log(req.body.data);
-    res.status(500).json({ message: "File not uploaded" });
+    res.status(500).json({ message: "File not uploaded", error: error });
   }
 };
 
