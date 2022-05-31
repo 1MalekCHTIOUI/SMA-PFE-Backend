@@ -8,6 +8,7 @@ exports.upload = async (req, res, next) => {
     const fileStr = req.file.path;
     const response = await cloudinary.uploader.upload(fileStr, {
       upload_preset: "sma_uploads",
+      resource_type: "auto",
     });
 
     const url = response.secure_url;
