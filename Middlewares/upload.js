@@ -40,7 +40,8 @@ module.exports = multer({
       ext !== ".jpeg" &&
       ext !== ".png" &&
       ext !== ".pdf" &&
-      ext !== ".docx"
+      ext !== ".docx" &&
+      ext !== ".mp4"
     ) {
       cb(new Error("File type is not supported"), false);
       return;
