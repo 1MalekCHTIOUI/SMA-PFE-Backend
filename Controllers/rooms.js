@@ -82,7 +82,7 @@ exports.getRoomByUserId = async (req, res, next) => {
   try {
     const room = await Room.find({
       members: {
-        $in: [req.params.userId],
+        $elemMatch: { userId: req.params.userId },
       },
     });
     res.status(200).json(room);
