@@ -60,7 +60,7 @@ exports.removeGroupMember = async (req, res, next) => {
       res.status(500).json({ message: "Wrong data" });
     }
     const deletedUser = await Room.findByIdAndUpdate(roomId, {
-      $pull: { members: memberId },
+      $pull: { members: { userId: memberId } },
     });
     res.status(200).json(deletedUser);
   } catch (error) {
