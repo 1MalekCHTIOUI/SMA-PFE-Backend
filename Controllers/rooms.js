@@ -4,7 +4,7 @@ const Message = require("../Models/Message");
 
 exports.newRoom = async (req, res, next) => {
   const newRoom = new Room({
-    members: [req.body.senderId, req.body.receiverId],
+    members: [{ userId: req.body.senderId }, { userId: req.body.receiverId }],
   });
   try {
     const savedRoom = await newRoom.save();
