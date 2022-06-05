@@ -42,7 +42,7 @@ exports.readNotification = async (req, res, next) => {
   const { notifId } = req.params;
   try {
     const notifs = await Notification.findByIdAndUpdate(notifId, {
-      read: false,
+      read: true,
     });
     res.status(200).json(notifs);
   } catch (error) {
@@ -56,7 +56,7 @@ exports.readAllNotifications = async (req, res, next) => {
     const notifs = await Notification.findByIdAndUpdate(
       { userId: userId },
       {
-        read: false,
+        read: true,
       },
     );
     res.status(200).json(notifs);
