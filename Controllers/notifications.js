@@ -53,10 +53,10 @@ exports.readNotification = async (req, res, next) => {
 exports.readAllNotifications = async (req, res, next) => {
   const { userId } = req.params;
   try {
-    const notifs = await Notification.findByIdAndUpdate(
+    const notifs = await Notification.updateMany(
       { userId: userId },
       {
-        read: true,
+        $set: { read: true },
       },
     );
     res.status(200).json(notifs);
