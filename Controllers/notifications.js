@@ -38,11 +38,11 @@ exports.getNotificationByUserId = async (req, res, next) => {
   }
 };
 
-exports.unreadNotification = async (req, res, next) => {
+exports.readNotification = async (req, res, next) => {
   const { notifId } = req.params;
   try {
     const notifs = await Notification.findByIdAndUpdate(notifId, {
-      read: true,
+      read: false,
     });
     res.status(200).json(notifs);
   } catch (error) {
@@ -50,13 +50,13 @@ exports.unreadNotification = async (req, res, next) => {
   }
 };
 
-exports.unreadAllNotifications = async (req, res, next) => {
+exports.readAllNotifications = async (req, res, next) => {
   const { userId } = req.params;
   try {
     const notifs = await Notification.findByIdAndUpdate(
       { userId: userId },
       {
-        read: true,
+        read: false,
       },
     );
     res.status(200).json(notifs);
